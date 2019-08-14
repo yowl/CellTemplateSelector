@@ -1,0 +1,51 @@
+﻿<UserControl x:Class="CellTemplateSelector.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:tkg="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:cellTemplateSelector="clr-namespace:CellTemplateSelector"
+    mc:Ignorable="d"
+    d:DesignHeight="300" d:DesignWidth="400">
+
+    <Grid x:Name="LayoutRoot" Background="White">
+        <tkg:RadGridView x:Name="grdDurations" 
+								  CanUserInsertRows="True" ShowGroupPanel="False"
+								 NewRowPosition="Top" CanUserDeleteRows="True" AutoGenerateColumns="False"
+								 ItemsSource="{Binding Durations}"
+                                     IsFilteringAllowed="False"
+						
+								 >
+            <tkg:RadGridView.Resources>
+                <cellTemplateSelector:MyCellTemplateSelector x:Key="myCellTemplateSelector">
+                    <cellTemplateSelector:MyCellTemplateSelector.overlappedStyle>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding EndEventLocalDateTime}"  
+                                                   Foreground="Red" 
+                                                   TextAlignment="Right" />
+                        </DataTemplate>
+                    </cellTemplateSelector:MyCellTemplateSelector.overlappedStyle>
+                    <cellTemplateSelector:MyCellTemplateSelector.normalStyle>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding EndEventLocalDateTime}"  
+                                                   TextAlignment="Right" />
+                        </DataTemplate>
+                    </cellTemplateSelector:MyCellTemplateSelector.normalStyle>
+                </cellTemplateSelector:MyCellTemplateSelector>
+            </tkg:RadGridView.Resources>
+            <tkg:RadGridView.Columns>
+                <tkg:GridViewDataColumn UniqueName="StartEventLocalDateTime" DataMemberBinding="{Binding StartEventLocalDateTime,
+								NotifyOnValidationError=true}"
+								EditTriggers="CellClick" 
+								Header="Date/Time" 
+								/>
+                <tkg:GridViewDataColumn UniqueName="EndEventLocalDateTime" 
+														DataMemberBinding="{Binding EndEventLocalDateTime,
+															NotifyOnValidationError=true}" 
+														Header="Date/Time" 
+                                                        CellTemplateSelector="{StaticResource myCellTemplateSelector}" 
+														EditTriggers="CellClick"/>
+            </tkg:RadGridView.Columns>
+        </tkg:RadGridView>
+    </Grid>
+</UserControl>
